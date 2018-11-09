@@ -35,12 +35,12 @@ async function main() {
     // Get addressability to commercial paper contract
     const contract = await network.getContract('demoContract');
 
-    console.log('\nSubmit commercial paper issue transaction.');
+    console.log('\nSubmit hello world transaction.');
 
     // issue commercial paper
     let response = await contract.submitTransaction('transaction1', 'hello');
-    console.log('Response from invoking smart contract: ')
-    console.log(response);
+    console.log()
+    console.log(JSON.parse(response.toString()));
     return response;
 
   } catch (error) {
