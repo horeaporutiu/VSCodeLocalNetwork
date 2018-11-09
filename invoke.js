@@ -14,7 +14,7 @@ async function main() {
 
   // Main try/catch block
   try {
-    const CONTRACT_NAME = 'sample-fabric-code';
+    const CONTRACT_NAME = 'demoContract';
 
     const identityLabel = 'User1@org1.example.com';
     let connectionProfile = yaml.safeLoad(fs.readFileSync('./network.yaml', 'utf8'));
@@ -42,7 +42,7 @@ async function main() {
     // issue commercial paper
     let response = await contract.submitTransaction('transaction1', 'hello');
     console.log(JSON.parse(response.toString()));
-    
+
     const channel = network.getChannel();
     let request = { chaincodeId: CONTRACT_NAME, fcn: 'getData', args: ['ITEM', ''] };
     let resultBuffer = await channel.queryByChaincode(request);
