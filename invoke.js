@@ -14,6 +14,8 @@ async function main() {
 
   // Main try/catch block
   try {
+    const CONTRACT_NAME = 'sample-fabric-code';
+
     const identityLabel = 'User1@org1.example.com';
     let connectionProfile = yaml.safeLoad(fs.readFileSync('./network.yaml', 'utf8'));
 
@@ -33,15 +35,19 @@ async function main() {
     console.log('Connected to mychannel. ');
 
     // Get addressability to commercial paper contract
-    const contract = await network.getContract('demoContract');
+    const contract = await network.getContract(CONTRACT_NAME);
 
     console.log('\nSubmit hello world transaction.');
 
     // issue commercial paper
     let response = await contract.submitTransaction('transaction1', 'hello');
-    console.log()
     console.log(JSON.parse(response.toString()));
-    return response;
+    
+    const channel = network.getChannel();
+    let request = { chaincodeId: CONTRACT_NAME, fcn: 'getData', args: ['ITEM', ''] };
+    let resultBuffer = await channel.queryByChaincode(request);
+    let result = JSON.parse(resultBuffer.toString());
+    console.log(result);
 
   } catch (error) {
     console.log(`Error processing transaction. ${error}`);
