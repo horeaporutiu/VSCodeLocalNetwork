@@ -14,6 +14,7 @@ async function main() {
 
   // Main try/catch block
   try {
+
     const identityLabel = 'User1@org1.example.com';
     let connectionProfile = yaml.safeLoad(fs.readFileSync('./network.yaml', 'utf8'));
 
@@ -22,26 +23,33 @@ async function main() {
       wallet: wallet
     };
 
-    // Connect to gateway using application specified parameters
+    // Connect to gateway using network.yaml file and our certificates in _idwallet directory
     await gateway.connect(connectionProfile, connectionOptions);
 
     console.log('Connected to Fabric gateway.');
 
-    // Get addressability to PaperNet network
+    // Connect to our local fabric
     const network = await gateway.getNetwork('mychannel');
 
     console.log('Connected to mychannel. ');
 
-    // Get addressability to commercial paper contract
+    // Get the contract we have installed on the peer
     const contract = await network.getContract('demoContract');
 
     console.log('\nSubmit hello world transaction.');
 
-    // issue commercial paper
-    let response = await contract.submitTransaction('transaction1', 'hello');
-    console.log()
-    console.log(JSON.parse(response.toString()));
-    return response;
+    // let response = await contract.submitTransaction('addMember', 'arvind@ibm.com', 'Arvind Krishna', 'Broadway Street, NY', '1231231111');
+    // console.log(response.toString())
+    // console.log(JSON.parse(response.toString()));
+    // return response;
+    
+    const channel = network.getChannel();
+    let request = { chaincodeId: 'demoContract', fcn: 'query', args: ['ginny@ibm.com'] };
+    let resultBuffer = await channel.queryByChaincode(request);
+    console.log(JSON.parse(resultBuffer.toString()))
+    
+    // let result = JSON.parse(resultBuffer.toString());
+    // console.log(result);
 
   } catch (error) {
     console.log(`Error processing transaction. ${error}`);

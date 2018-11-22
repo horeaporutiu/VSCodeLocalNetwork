@@ -34,7 +34,7 @@ async function main() {
     const channel = network.getChannel();
     
     //set up our request - specify which chaincode, which function, and which arguments
-    let request = { chaincodeId: 'demoContract', fcn: 'query', args: ['GREETING'] };
+    let request = { chaincodeId: 'demoContract', fcn: 'query', args: ['ginny@ibm.com'] };
     
     //query the ledger by the key in the args above
     let resultBuffer = await channel.queryByChaincode(request);
