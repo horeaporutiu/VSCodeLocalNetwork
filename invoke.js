@@ -38,18 +38,10 @@ async function main() {
 
     console.log('\nSubmit hello world transaction.');
 
-    // let response = await contract.submitTransaction('addMember', 'arvind@ibm.com', 'Arvind Krishna', 'Broadway Street, NY', '1231231111');
-    // console.log(response.toString())
-    // console.log(JSON.parse(response.toString()));
-    // return response;
-    
-    const channel = network.getChannel();
-    let request = { chaincodeId: 'demoContract', fcn: 'query', args: ['ginny@ibm.com'] };
-    let resultBuffer = await channel.queryByChaincode(request);
-    console.log(JSON.parse(resultBuffer.toString()))
-    
-    // let result = JSON.parse(resultBuffer.toString());
-    // console.log(result);
+    let response = await contract.submitTransaction('transaction1', 'hello');
+    console.log(JSON.parse(response.toString()));
+    return response;
+
 
   } catch (error) {
     console.log(`Error processing transaction. ${error}`);
